@@ -1,17 +1,15 @@
-// turn off some lint warnings while developing
-#![allow(unused_variables)]
-#![allow(dead_code)]
-
+use std::{thread, time};
 mod universe;
-use universe::cell;
+
+fn sleep(ms: u64) {
+    thread::sleep(time::Duration::from_millis(ms));
+}
 
 fn main() {
-    println!("Hello, world!");
-    let universe = universe::Universe::new(20);
-    // let display = format!("{}", universe);
-    println!("{}", universe);
-    // let dead_cell = cell::Cell::Dead;
-    // let alive_cell = cell::Cell::Alive;
-    // println!("{}", dead_cell);
-    // println!("{}", alive_cell);
+    let mut universe = universe::Universe::new(30);
+    loop {
+        universe.tick();
+        println!("{esc}c{u}", esc = 27 as char, u = universe);
+        sleep(400);
+    }
 }
